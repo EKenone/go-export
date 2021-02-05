@@ -1,3 +1,6 @@
 .idea
 
 target/*
+
+api/http/conf.yaml
+api/rpc/conf.yaml

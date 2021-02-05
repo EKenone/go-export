@@ -61,7 +61,7 @@ func done() (error, []byte) {
 
 	jsonStr, _ := json.Marshal(data)
 
-	resp, err := cli.Post("http://127.0.0.1:8081/ept", "application/json", bytes.NewBuffer(jsonStr))
+	resp, err := cli.Post("http://11.11.11.114:8081/ept", "application/json", bytes.NewBuffer(jsonStr))
 	defer resp.Body.Close()
 	if err != nil {
 		return err, nil

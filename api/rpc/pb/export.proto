@@ -1,0 +1,21 @@
+syntax = 'proto3';
+
+package pb;
+
+option go_package = '.;pb';
+
+service Export {
+  rpc Ept (EptRequest) returns(EptReply) {}
+}
+
+message EptRequest {
+  string hash_mark = 1;
+  int32 total = 2;
+  string header = 3;
+  string data = 4;
+}
+
+message EptReply {
+  int32 code = 1;
+  string msg = 2;
+}

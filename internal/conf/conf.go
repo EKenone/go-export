@@ -7,12 +7,34 @@ import (
 )
 
 type Config struct {
-	Ept *EptConf
+	Ept   *EptConf
+	Oss   *OssConf
+	Loc   *LocConf
+	Redis *RedisConf
 }
 
 type EptConf struct {
-	Path string `yaml:"path"`
+	Path         string `yaml:"path"`
+	Port         string `yaml:"port"`
+	UploadServer string `yaml:"uploadServer"`
+}
+
+type OssConf struct {
+	Endpoint        string `yaml:"endpoint"`
+	AccessKeyId     string `yaml:"accessKeyId"`
+	AccessKeySecret string `yaml:"accessKeySecret"`
+	BucketName      string `yaml:"bucketName"`
+}
+
+type LocConf struct {
+	Host string `yaml:"host"`
+}
+
+type RedisConf struct {
+	Host string `yaml:"host"`
 	Port string `yaml:"port"`
+	User string `yaml:"user"`
+	Pwd  string `yaml:"user"`
 }
 
 var (

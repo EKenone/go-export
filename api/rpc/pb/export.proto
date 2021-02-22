@@ -6,6 +6,7 @@ option go_package = '.;pb';
 
 service Export {
   rpc Ept (EptRequest) returns(EptReply) {}
+  rpc EptProgress (EptProgressRequest) returns(EptProgressReply) {}
 }
 
 message EptRequest {
@@ -18,4 +19,14 @@ message EptRequest {
 message EptReply {
   int32 code = 1;
   string msg = 2;
+}
+
+message EptProgressRequest {
+  string mark = 1;
+}
+
+message EptProgressReply {
+  string progress = 1;
+  string url = 2;
+  int32 status = 3;
 }

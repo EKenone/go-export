@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-export/internal/conf"
 	"go-export/internal/export"
@@ -28,6 +29,32 @@ func Ept(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{"code": 200, "msg": "ok"})
 }
 
+type ProgressResp struct {
+	Progress string
+	Url      string
+	Status   int
+}
+
+func EptProgress(ctx *gin.Context) {
+	mark, _ := ctx.GetQuery("mark")
+
+	data := export.CurrentProgress(mark)
+
+	progress := fmt.Sprintf("%.2f", float64(data.Current)/float64(data.Total))
+
+	if progress == "1.00" && data.Status == export.StatusWait {
+		progress = "99%"
+	} else {
+		progress = fmt.Sprintf("%v", float64(data.Current*100)/float64(data.Total)) + "%"
+	}
+
+	ctx.JSON(200, gin.H{"code": 200, "msg": "ok", "data": ProgressResp{
+		Progress: progress,
+		Url:      data.Url,
+		Status:   data.Status,
+	}})
+}
+
 var env string
 
 func init() {
@@ -44,5 +71,6 @@ func main() {
 
 	eg := gin.Default()
 	eg.POST("/ept", Ept)
+	eg.GET("/ept-progress", EptProgress)
 	eg.Run(":" + conf.Conf.Ept.Port)
 }

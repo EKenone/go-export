@@ -19,7 +19,14 @@ func TestRpcEpt(t *testing.T) {
 	s, _ := status.FromError(err)
 	c := pb.NewExportClient(conn)
 
-	total := 10
+	//a, _ := c.EptProgress(context.Background(), &pb.EptProgressRequest{
+	//	Mark: "20210222175038XVlBz",
+	//})
+	//
+	//t.Log(a)
+	//return
+
+	total := 30
 	mark := time.Now().Format("20060102150405") + RandStringBytes(5)
 	header := []map[string]string{
 		{"field": "number", "title": "编号"},

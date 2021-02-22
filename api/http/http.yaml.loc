@@ -1,3 +1,19 @@
 ept:
   path: file/
   port: 8081
+  uploadServer: oss
+
+oss:
+  endpoint: oss-cn-shenzhen.aliyuncs.com
+  accessKeyId: your accessKeyId
+  accessKeySecret: your accessKeySecret
+  bucketName: your bucket name
+
+loc:
+  host: https://upload.test.com
+
+redis:
+  host: 11.11.11.114
+  port: 6379
+  user:
+  pwd:

@@ -20,7 +20,7 @@ func TestHttpEpt(t *testing.T) {
 
 	g := sync.WaitGroup{}
 
-	for i := 0; i < 30; i++ {
+	for i := 0; i < 1; i++ {
 		g.Add(1)
 		go func() {
 			defer g.Done()
@@ -36,7 +36,7 @@ func TestHttpEpt(t *testing.T) {
 
 func done() (error, []byte) {
 	cli := http.Client{}
-	total := 10
+	total := 30
 	s := time.Now().Format("20060102150405") + RandStringBytes(5)
 
 	list := make([]map[string]interface{}, 0)

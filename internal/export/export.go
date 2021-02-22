@@ -4,23 +4,25 @@ import (
 	"encoding/csv"
 	"fmt"
 	"go-export/internal/conf"
+	"go-export/pkg/upload"
 	"os"
 	"sync"
 )
 
 const (
-	MAXROW   = 1000000 // excel 最大行数
-	BATCHROW = 10000   // 没
+	MaxRow       = 1000000 // excel 最大行数
+	SaveStepping = 10
 )
 
 // 导出的配置结构
 type exportConf struct {
-	w    *csv.Writer
-	file *os.File
-	lw   *sync.Mutex
-	fr   int
-	ar   int
-	mk   string
+	w        *csv.Writer
+	file     *os.File
+	lw       *sync.Mutex
+	fr       int
+	ar       int
+	mk       string
+	fullName string
 }
 
 // 导出任务结构
@@ -65,14 +67,16 @@ func InitExportConf(f Form) *exportConf {
 		}
 
 		ec := &exportConf{
-			w:    w,
-			file: file,
-			lw:   &sync.Mutex{},
-			ar:   f.Total,
-			mk:   f.HashMark,
+			w:        w,
+			file:     file,
+			lw:       &sync.Mutex{},
+			ar:       f.Total,
+			mk:       f.HashMark,
+			fullName: filename,
 		}
 
 		task.task[f.HashMark] = ec
+		InitProgress(f.HashMark, f.Total)
 	}
 
 	return task.task[f.HashMark]
@@ -88,8 +92,16 @@ func (ec *exportConf) WriteRow(v []string) {
 	ec.fr++
 
 	// 写入总数已经达到总条数，关闭文件和删除任务
-	if ec.fr >= ec.ar {
+	if ec.fr >= ec.ar || ec.fr >= MaxRow {
+		go func() {
+			url := upload.ToYun(ec.mk, ec.fullName)
+			Finish(ec.mk, url)
+		}()
 		ec.file.Close()
 		delete(task.task, ec.mk)
+	} else {
+		if ec.fr%SaveStepping == 0 {
+			Stepping(ec.mk, ec.fr)
+		}
 	}
 }

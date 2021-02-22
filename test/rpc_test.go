@@ -26,7 +26,7 @@ func TestRpcEpt(t *testing.T) {
 	//t.Log(a)
 	//return
 
-	total := 30
+	total := 100000
 	mark := time.Now().Format("20060102150405") + RandStringBytes(5)
 	header := []map[string]string{
 		{"field": "number", "title": "编号"},

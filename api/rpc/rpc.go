@@ -66,6 +66,8 @@ func (s *Server) EptProgress(ctx context.Context, req *pb.EptProgressRequest) (*
 	}, nil
 }
 
+const RpcMaxData = 1024 * 1024 * 1024 // 1GB
+
 func main() {
 	flag.Parse()
 	if err := conf.Init(); err != nil {
@@ -76,7 +78,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	gs := grpc.NewServer()
+	gs := grpc.NewServer(grpc.MaxRecvMsgSize(RpcMaxData), grpc.MaxSendMsgSize(RpcMaxData))
 
 	pb.RegisterExportServer(gs, &Server{})
 

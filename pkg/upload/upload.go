@@ -41,6 +41,7 @@ func ToYun(filename string, filePath string) string {
 	}
 
 	return s.Uploader(&Loc{
-		Conf: s,
+		Conf:   s,
+		Folder: "",
 	})
 }

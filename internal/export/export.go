@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"go-export/internal/conf"
 	"go-export/pkg/upload"
+	"math"
 	"os"
 	"sync"
 )
 
 const (
-	MaxRow       = 1000000 // excel 最大行数
-	SaveStepping = 1000
+	MaxRow   = 1000000 // excel 最大行数
+	StepPart = 100     // 把数据分成100份进行步进更新，保证每个任务最多100次redis步进更新
+	FlushNum = 10      // 从缓冲区写入文件行数
 )
 
 // 导出的配置结构
@@ -21,6 +23,7 @@ type exportConf struct {
 	lw       *sync.Mutex
 	fr       int
 	ar       int
+	sp       int
 	mk       string
 	fullName string
 }
@@ -66,11 +69,14 @@ func InitExportConf(f Form) *exportConf {
 			_ = w.Write(f.GetHeaderRow())
 		}
 
+		sp := math.Ceil(float64(f.Total) / float64(StepPart))
+
 		ec := &exportConf{
 			w:        w,
 			file:     file,
 			lw:       &sync.Mutex{},
 			ar:       f.Total,
+			sp:       int(sp),
 			mk:       f.HashMark,
 			fullName: filename,
 		}
@@ -87,9 +93,12 @@ func (ec *exportConf) WriteRow(v []string) {
 	ec.lw.Lock()
 	defer ec.lw.Unlock()
 
-	ec.w.Write(v)
-	ec.w.Flush()
 	ec.fr++
+	ec.w.Write(v)
+
+	if ec.fr%FlushNum == 0 || ec.fr >= ec.ar { // 到达缓冲区最大实现条数或者写入了最后一条
+		ec.w.Flush()
+	}
 
 	// 写入总数已经达到总条数，关闭文件和删除任务
 	if ec.fr >= ec.ar || ec.fr >= MaxRow {
@@ -100,7 +109,7 @@ func (ec *exportConf) WriteRow(v []string) {
 		ec.file.Close()
 		delete(task.task, ec.mk)
 	} else {
-		if ec.fr%SaveStepping == 0 {
+		if ec.fr%ec.sp == 0 {
 			Stepping(ec.mk, ec.fr)
 		}
 	}

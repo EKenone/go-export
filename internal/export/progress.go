@@ -22,8 +22,9 @@ const (
 )
 
 const (
-	StatusWait = iota
-	StatusSuccess
+	StatusFail    = iota // 任务不存在
+	StatusWait           // 任务进行中
+	StatusSuccess        // 任务完成
 )
 
 func InitProgress(mark string, total int) {
@@ -64,13 +65,16 @@ func CurrentProgress(mark string) ProgressData {
 	return data
 }
 
+// 设置进度条数据
 func setProgressData(mark string, data ProgressData) {
 	by, _ := json.Marshal(data)
 
-	err := redis.GetClient().Set(context.Background(), redisKey(mark), by, Expired)
+	res := redis.GetClient().Set(context.Background(), redisKey(mark), by, Expired)
 
-	if err != nil {
-		log.Println(err)
+	log.Println(res)
+
+	if res.Err() != nil {
+		log.Println(res.Err())
 	}
 }
 

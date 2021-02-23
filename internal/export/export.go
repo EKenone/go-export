@@ -11,7 +11,7 @@ import (
 
 const (
 	MaxRow       = 1000000 // excel 最大行数
-	SaveStepping = 10
+	SaveStepping = 1000
 )
 
 // 导出的配置结构

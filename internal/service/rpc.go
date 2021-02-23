@@ -26,6 +26,8 @@ func (s *RpcService) Ept(ctx context.Context, req *pb.EptRequest) (*pb.EptReply,
 		Total:    int(req.Total),
 	}
 
+	// 这里协程调用就行，直接返回，查看进度条可以看情况
+	//go doEpt(f)
 	doEpt(f)
 
 	return &pb.EptReply{

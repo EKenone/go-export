@@ -16,6 +16,8 @@ func (s *HttpService) Ept(ctx *gin.Context) {
 		return
 	}
 
+	// 这里协程调用就行，直接返回，查看进度条可以看情况
+	//go doEpt(f)
 	doEpt(f)
 
 	ctx.JSON(200, gin.H{"code": 200, "msg": "ok"})

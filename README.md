@@ -2,6 +2,20 @@
 
 > 目的实现一个接收数据即可导出的导出服务器
 
+#### 项目测试
+
+1. 把http.yaml.loc和rpc.yaml.loc去掉后缀，并且配置自身的配置参数
+2. http运行：到api/http目录下运行 go run http.go
+3. rpc运行：到api/rpc目录下运行 go run rpc.go
+4. 分别运行test下面的http_test.go和rpc_test.go可调试
+
+
+#### 项目运行
+> 依赖makefile管理
+1. 打包项目: ``make build``
+2. 运行项目: ``make run``
+3. 终止项目: ``make stop``
+
 #### 已实现:
 
 - 多任务协程csv导出，单任务每秒处理8W-10W条数据

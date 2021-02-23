@@ -24,10 +24,12 @@ type OssConf struct {
 	AccessKeyId     string `yaml:"accessKeyId"`
 	AccessKeySecret string `yaml:"accessKeySecret"`
 	BucketName      string `yaml:"bucketName"`
+	Dir             string `yaml:"dir"`
 }
 
 type LocConf struct {
 	Host string `yaml:"host"`
+	Dir  string `yaml:"dir"`
 }
 
 type RedisConf struct {

@@ -8,9 +8,11 @@ oss:
   accessKeyId: your accessKeyId
   accessKeySecret: your accessKeySecret
   bucketName: your bucket name
+  dir: export/
 
 loc:
   host: https://upload.test.com
+  dir: file/
 
 redis:
   host: 11.11.11.114

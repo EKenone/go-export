@@ -8,8 +8,6 @@ import (
 	"sync"
 )
 
-const PathPrefix = "export/"
-
 type OssBucket struct {
 	once *sync.Once
 	cli  *oss.Bucket
@@ -40,7 +38,7 @@ type Oss struct {
 func (oss *Oss) Upload() string {
 	file, _ := os.Open(oss.FilePath)
 
-	ossName := PathPrefix + oss.Filename + ".csv"
+	ossName := conf.Conf.Oss.Dir + oss.Filename + ".csv"
 
 	err := getOssBucket().PutObject(ossName, file)
 

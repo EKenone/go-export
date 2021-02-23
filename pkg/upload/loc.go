@@ -6,12 +6,11 @@ import (
 
 type Loc struct {
 	Conf
-	Folder string
 }
 
 func (loc *Loc) Upload() string {
 
-	path := loc.Folder + "/" + loc.Filename + ".csv"
+	path := conf.Conf.Loc.Dir + loc.Filename + ".csv"
 
 	return LocFileUrl(path)
 }

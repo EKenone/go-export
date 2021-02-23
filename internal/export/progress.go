@@ -27,6 +27,7 @@ const (
 	StatusSuccess        // 任务完成
 )
 
+// 初始化导出任务
 func InitProgress(mark string, total int) {
 	data := ProgressData{
 		Total:  total,
@@ -37,6 +38,7 @@ func InitProgress(mark string, total int) {
 	setProgressData(mark, data)
 }
 
+// 更新导出进度
 func Stepping(mark string, current int) {
 	data := CurrentProgress(mark)
 
@@ -45,6 +47,7 @@ func Stepping(mark string, current int) {
 	setProgressData(mark, data)
 }
 
+// 完成导出任务
 func Finish(mark string, url string) {
 	data := CurrentProgress(mark)
 
@@ -55,6 +58,7 @@ func Finish(mark string, url string) {
 	setProgressData(mark, data)
 }
 
+// 获取当前进度信息
 func CurrentProgress(mark string) ProgressData {
 	var data ProgressData
 
@@ -78,6 +82,7 @@ func setProgressData(mark string, data ProgressData) {
 	}
 }
 
+// 导出进度的redis key
 func redisKey(key string) string {
 	return RedisPrefix + key
 }

@@ -10,6 +10,12 @@ run:
 	nohup target/http -conf=target/http.yaml -env=release 2>&1 > target/http.log &
 	nohup target/rpc -conf=target/rpc.yaml 2>&1 > target/rpc.log &
 
+run-http:
+	nohup target/http -conf=target/http.yaml -env=release 2>&1 > target/http.log &
+
+run-rpc:
+	nohup target/rpc -conf=target/rpc.yaml 2>&1 > target/rpc.log &
+
 stop:
 	pkill -f target/http
 	pkill -f target/rpc

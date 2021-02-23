@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Ept   *EptConf
 	Oss   *OssConf
+	Txy   *TxyConf
 	Loc   *LocConf
 	Redis *RedisConf
 }
@@ -25,6 +26,13 @@ type OssConf struct {
 	AccessKeySecret string `yaml:"accessKeySecret"`
 	BucketName      string `yaml:"bucketName"`
 	Dir             string `yaml:"dir"`
+}
+
+type TxyConf struct {
+	Host      string `yaml:"host"`
+	SecretId  string `yaml:"secretId"`
+	SecretKey string `yaml:"secretKey"`
+	Dir       string `yaml:"dir"`
 }
 
 type LocConf struct {

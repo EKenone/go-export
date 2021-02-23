@@ -10,6 +10,12 @@ oss:
   bucketName: your bucket name
   dir: export/
 
+txy:
+  host: https://examplebucket-1252654912.cos.ap-nanjing.myqcloud.com
+  secretId: your secretId
+  secretKey: your secretKey
+  dir: export/
+
 loc:
   host: https://upload.test.com
   dir: file/

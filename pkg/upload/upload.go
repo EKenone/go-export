@@ -37,7 +37,9 @@ func ToYun(filename string, filePath string) string {
 	case qiniu:
 		return ""
 	case txy:
-		return ""
+		return s.Uploader(&Txy{
+			Conf: s,
+		})
 	}
 
 	return s.Uploader(&Loc{

@@ -9,7 +9,6 @@ type Loc struct {
 }
 
 func (loc *Loc) Upload() string {
-
 	path := conf.Conf.Loc.Dir + loc.Filename + ".csv"
 
 	return LocFileUrl(path)

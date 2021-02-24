@@ -19,7 +19,7 @@ const (
 type exportConf struct {
 	w        *csv.Writer
 	file     *os.File
-	lw       *sync.Mutex
+	lw       sync.Mutex
 	fr       int
 	ar       int
 	sp       int
@@ -30,13 +30,13 @@ type exportConf struct {
 // 导出任务结构
 type exportTask struct {
 	task map[string]*exportConf
-	l    *sync.Mutex
+	l    sync.Mutex
 }
 
 // 导出任务队列
 var task = exportTask{
 	task: make(map[string]*exportConf),
-	l:    &sync.Mutex{},
+	l:    sync.Mutex{},
 }
 
 // 初始化导出配置
@@ -73,7 +73,7 @@ func InitExportConf(f Form) *exportConf {
 		ec := &exportConf{
 			w:        w,
 			file:     file,
-			lw:       &sync.Mutex{},
+			lw:       sync.Mutex{},
 			ar:       f.Total,
 			sp:       int(sp),
 			mk:       f.HashMark,

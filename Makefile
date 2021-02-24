@@ -19,3 +19,7 @@ run-rpc:
 stop:
 	pkill -f target/http
 	pkill -f target/rpc
+
+restart:
+	make stop
+	make run

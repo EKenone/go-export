@@ -1,19 +1,16 @@
 package upload
 
-import (
-	"go-export/internal/conf"
-)
-
 type Loc struct {
 	Conf
+	Host string
 }
 
 func (loc *Loc) Upload() string {
-	path := conf.Conf.Loc.Dir + loc.Filename + ".csv"
+	path := loc.Dir + loc.Filename + ".csv"
 
-	return LocFileUrl(path)
+	return loc.FileUrl(path)
 }
 
-func LocFileUrl(path string) string {
-	return conf.Conf.Loc.Host + "/" + path
+func (loc *Loc) FileUrl(path string) string {
+	return loc.Host + "/" + path
 }

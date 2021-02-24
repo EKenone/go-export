@@ -20,36 +20,39 @@ var txyBkt = &TxyBucket{
 	cli:  nil,
 }
 
-func getTxyBucket() *cos.Client {
+type Txy struct {
+	Conf
+	Host      string
+	SecretId  string
+	SecretKey string
+}
+
+func (txy *Txy) GetTxyBucket() *cos.Client {
 	txyBkt.once.Do(func() {
 		u, _ := url.Parse(conf.Conf.Txy.Host)
 		b := &cos.BaseURL{BucketURL: u}
 		txyBkt.cli = cos.NewClient(b, &http.Client{
 			Transport: &cos.AuthorizationTransport{
-				SecretID:  conf.Conf.Txy.SecretId,
-				SecretKey: conf.Conf.Txy.SecretKey,
+				SecretID:  txy.SecretId,
+				SecretKey: txy.SecretKey,
 			},
 		})
 	})
 	return txyBkt.cli
 }
 
-type Txy struct {
-	Conf
-}
-
 func (txy *Txy) Upload() string {
-	txyName := conf.Conf.Txy.Dir + txy.Filename + ".csv"
+	txyName := txy.Dir + txy.Filename + ".csv"
 
-	_, err := getTxyBucket().Object.PutFromFile(context.Background(), txyName, txy.FilePath, nil)
+	_, err := txy.GetTxyBucket().Object.PutFromFile(context.Background(), txyName, txy.FilePath, nil)
 
 	if err != nil {
 		log.Println(err)
 	}
 
-	return txyFileUrl(txyName)
+	return txy.FileUrl(txyName)
 }
 
-func txyFileUrl(txyName string) string {
-	return conf.Conf.Txy.Host + "/" + txyName
+func (txy *Txy) FileUrl(txyName string) string {
+	return txy.Host + "/" + txyName
 }

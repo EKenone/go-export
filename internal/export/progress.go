@@ -3,7 +3,7 @@ package export
 import (
 	"context"
 	"encoding/json"
-	"go-export/pkg/redis"
+	"go-export/internal/redis"
 	"log"
 	"time"
 )

@@ -29,7 +29,7 @@ func (o *Oss) GetOssBucket() *oss.Bucket {
 	bkt.once.Do(func() {
 		cli, err := oss.New(o.Endpoint, o.AccessKeyId, o.AccessKeySecret)
 		if err != nil {
-			log.Panicln(err)
+			log.Println(err)
 		}
 		bucket, _ := cli.Bucket(o.BucketName)
 		bkt.cli = bucket

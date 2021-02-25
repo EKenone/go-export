@@ -17,7 +17,7 @@ type ProgressData struct {
 }
 
 const (
-	RedisPrefix = "go-export:progress:"
+	RedisPrefix = "GO-EXPORT:PROGRESS:"
 	Expired     = 24 * time.Hour
 )
 

@@ -12,4 +12,5 @@ require (
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.19
 	google.golang.org/grpc v1.32.0
 	google.golang.org/protobuf v1.25.0
+	github.com/qiniu/go-sdk/v7 v7.9.1
 )

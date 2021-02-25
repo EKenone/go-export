@@ -8,12 +8,12 @@ import (
 )
 
 type OssBucket struct {
-	once *sync.Once
+	once sync.Once
 	cli  *oss.Bucket
 }
 
 var bkt = &OssBucket{
-	once: &sync.Once{},
+	once: sync.Once{},
 	cli:  nil,
 }
 

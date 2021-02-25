@@ -10,6 +10,7 @@ type Config struct {
 	Ept   *EptConf
 	Oss   *OssConf
 	Txy   *TxyConf
+	Qiniu *QiniuConf
 	Loc   *LocConf
 	Redis *RedisConf
 }
@@ -33,6 +34,14 @@ type TxyConf struct {
 	SecretId  string `yaml:"secretId"`
 	SecretKey string `yaml:"secretKey"`
 	Dir       string `yaml:"dir"`
+}
+
+type QiniuConf struct {
+	AccessKey  string `yaml:"accessKey"`
+	SecretKey  string `yaml:"secretKey"`
+	BucketName string `yaml:"bucketName"`
+	Host       string `yaml:"host"`
+	Dir        string `yaml:"dir"`
 }
 
 type LocConf struct {

@@ -28,7 +28,14 @@ func toYun(filename string, filePath string) string {
 			BucketName:      conf.Conf.Oss.BucketName,
 		})
 	case qiniu:
-		return ""
+		s.Dir = conf.Conf.Qiniu.Dir
+		return s.Uploader(&upload.Qiniu{
+			Conf:       s,
+			AccessKey:  conf.Conf.Qiniu.AccessKey,
+			SecretKey:  conf.Conf.Qiniu.SecretKey,
+			BucketName: conf.Conf.Qiniu.BucketName,
+			Host:       conf.Conf.Qiniu.Host,
+		})
 	case txy:
 		s.Dir = conf.Conf.Txy.Dir
 		return s.Uploader(&upload.Txy{

@@ -11,12 +11,12 @@ import (
 )
 
 type TxyBucket struct {
-	once *sync.Once
+	once sync.Once
 	cli  *cos.Client
 }
 
 var txyBkt = &TxyBucket{
-	once: &sync.Once{},
+	once: sync.Once{},
 	cli:  nil,
 }
 

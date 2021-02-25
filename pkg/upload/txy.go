@@ -3,7 +3,6 @@ package upload
 import (
 	"context"
 	"github.com/tencentyun/cos-go-sdk-v5"
-	"go-export/internal/conf"
 	"log"
 	"net/http"
 	"net/url"
@@ -29,7 +28,7 @@ type Txy struct {
 
 func (txy *Txy) GetTxyBucket() *cos.Client {
 	txyBkt.once.Do(func() {
-		u, _ := url.Parse(conf.Conf.Txy.Host)
+		u, _ := url.Parse(txy.Host)
 		b := &cos.BaseURL{BucketURL: u}
 		txyBkt.cli = cos.NewClient(b, &http.Client{
 			Transport: &cos.AuthorizationTransport{

@@ -8,10 +8,6 @@ import (
 
 type Config struct {
 	Ept   *EptConf
-	Oss   *OssConf
-	Txy   *TxyConf
-	Qiniu *QiniuConf
-	Loc   *LocConf
 	Redis *RedisConf
 }
 
@@ -19,34 +15,6 @@ type EptConf struct {
 	Path         string `yaml:"path"`
 	Port         string `yaml:"port"`
 	UploadServer string `yaml:"uploadServer"`
-}
-
-type OssConf struct {
-	Endpoint        string `yaml:"endpoint"`
-	AccessKeyId     string `yaml:"accessKeyId"`
-	AccessKeySecret string `yaml:"accessKeySecret"`
-	BucketName      string `yaml:"bucketName"`
-	Dir             string `yaml:"dir"`
-}
-
-type TxyConf struct {
-	Host      string `yaml:"host"`
-	SecretId  string `yaml:"secretId"`
-	SecretKey string `yaml:"secretKey"`
-	Dir       string `yaml:"dir"`
-}
-
-type QiniuConf struct {
-	AccessKey  string `yaml:"accessKey"`
-	SecretKey  string `yaml:"secretKey"`
-	BucketName string `yaml:"bucketName"`
-	Host       string `yaml:"host"`
-	Dir        string `yaml:"dir"`
-}
-
-type LocConf struct {
-	Host string `yaml:"host"`
-	Dir  string `yaml:"dir"`
 }
 
 type RedisConf struct {

@@ -80,6 +80,7 @@ func InitExportConf(f Form) *exportConf {
 			sp:       int(sp),
 			mk:       f.HashMark,
 			fullName: filename,
+			gc:       make(chan bool, 1),
 		}
 
 		task.task[f.HashMark] = ec
@@ -109,10 +110,6 @@ func (ec *exportConf) WriteRow(v []string) {
 	// 写入总数已经达到总条数，关闭文件和删除任务
 	if ec.fr >= ec.ar || ec.fr >= MaxRow {
 		ec.taskEnd()
-		go func() {
-			url := toYun(ec.mk, ec.fullName)
-			Finish(ec.mk, url)
-		}()
 	} else {
 		if ec.fr%ec.sp == 0 {
 			Stepping(ec.mk, ec.fr)
@@ -126,7 +123,7 @@ func (ec *exportConf) autoGCTask() {
 		select {
 		case <-ec.gc:
 			return
-		case <-time.After(8 * time.Hour):
+		case <-time.After(5 * time.Minute):
 			ec.taskEnd()
 		}
 	}
@@ -137,4 +134,8 @@ func (ec *exportConf) taskEnd() {
 	ec.file.Close()
 	delete(task.task, ec.mk)
 	ec.gc <- true
+	go func() {
+		url := toYun(ec.mk, ec.fullName)
+		Finish(ec.mk, url)
+	}()
 }

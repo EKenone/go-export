@@ -31,7 +31,7 @@ func TestRpcEpt(t *testing.T) {
 	header := []map[string]string{
 		{"field": "number", "title": "编号"},
 		{"field": "name", "title": "姓名"},
-		{"field": "other", "title": "特长"},
+		{"field": "other.tc", "title": "特长"},
 		{"field": "age", "title": "年龄"},
 	}
 	headerStr, _ := json.Marshal(header)
@@ -39,7 +39,7 @@ func TestRpcEpt(t *testing.T) {
 
 	for i := 0; i < total; i++ {
 		list = append(list, map[string]interface{}{
-			"number": "test", "name": "没问题", "other": "无形装逼", "age": 28,
+			"number": "test", "name": "没问题", "other": map[string]interface{}{"tc": "无形装逼"}, "age": 28,
 		})
 	}
 	dataStr, _ := json.Marshal(list)

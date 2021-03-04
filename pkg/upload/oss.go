@@ -40,6 +40,7 @@ func (o *Oss) GetOssBucket() *oss.Bucket {
 
 func (o *Oss) Upload() string {
 	file, _ := os.Open(o.FilePath)
+	defer file.Close()
 
 	ossName := o.Dir + o.Filename + ".csv"
 

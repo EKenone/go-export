@@ -12,7 +12,12 @@ func (s *HttpService) Ept(ctx *gin.Context) {
 	var f export.Form
 
 	if err := ctx.ShouldBindJSON(&f); err != nil {
-		ctx.JSON(200, gin.H{"code": 401, "msg": "错误数据格式"})
+		ctx.AbortWithStatusJSON(200, gin.H{"code": 401, "msg": "错误数据格式"})
+		return
+	}
+
+	if len(f.Data) == 0 {
+		ctx.AbortWithStatusJSON(200, gin.H{"code": 401, "msg": "数据不能为空"})
 		return
 	}
 

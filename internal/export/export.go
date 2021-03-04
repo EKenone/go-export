@@ -7,6 +7,7 @@ import (
 	"math"
 	"os"
 	"sync"
+	"time"
 )
 
 const (
@@ -25,6 +26,7 @@ type exportConf struct {
 	sp       int
 	mk       string
 	fullName string
+	gc       chan bool
 }
 
 // 导出任务结构
@@ -81,7 +83,12 @@ func InitExportConf(f Form) *exportConf {
 		}
 
 		task.task[f.HashMark] = ec
+
+		// 初始化进度条
 		InitProgress(f.HashMark, f.Total)
+
+		// 自动回收协程
+		go ec.autoGCTask()
 	}
 
 	return task.task[f.HashMark]
@@ -101,15 +108,33 @@ func (ec *exportConf) WriteRow(v []string) {
 
 	// 写入总数已经达到总条数，关闭文件和删除任务
 	if ec.fr >= ec.ar || ec.fr >= MaxRow {
+		ec.taskEnd()
 		go func() {
 			url := toYun(ec.mk, ec.fullName)
 			Finish(ec.mk, url)
 		}()
-		ec.file.Close()
-		delete(task.task, ec.mk)
 	} else {
 		if ec.fr%ec.sp == 0 {
 			Stepping(ec.mk, ec.fr)
 		}
 	}
+}
+
+// 自动回收任务
+func (ec *exportConf) autoGCTask() {
+	for {
+		select {
+		case <-ec.gc:
+			return
+		case <-time.After(8 * time.Hour):
+			ec.taskEnd()
+		}
+	}
+}
+
+// 任务结束
+func (ec *exportConf) taskEnd() {
+	ec.file.Close()
+	delete(task.task, ec.mk)
+	ec.gc <- true
 }

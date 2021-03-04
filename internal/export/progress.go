@@ -75,7 +75,7 @@ func setProgressData(mark string, data ProgressData) {
 
 	res := redis.GetClient().Set(context.Background(), redisKey(mark), by, Expired)
 
-	log.Println(res)
+	//log.Println(res)
 
 	if res.Err() != nil {
 		log.Println(res.Err())

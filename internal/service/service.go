@@ -5,6 +5,7 @@ import (
 	"go-export/internal/export"
 )
 
+// 执行导出
 func doEpt(f export.Form) {
 	if f.Total == 0 {
 		f.Total = len(f.Data)

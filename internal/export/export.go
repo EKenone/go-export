@@ -123,7 +123,7 @@ func (ec *exportConf) autoGCTask() {
 		select {
 		case <-ec.gc:
 			return
-		case <-time.After(5 * time.Minute):
+		case <-time.After(4 * time.Hour):
 			ec.taskEnd()
 		}
 	}

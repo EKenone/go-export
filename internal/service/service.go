@@ -24,9 +24,9 @@ func getProgress(mark string) (string, string, int) {
 	progress := fmt.Sprintf("%.2f", float64(data.Current)/float64(data.Total))
 
 	if progress == "1.00" && data.Status == export.StatusWait {
-		progress = "99%"
+		progress = "99.00"
 	} else {
-		progress = fmt.Sprintf("%v", float64(data.Current*100)/float64(data.Total)) + "%"
+		progress = fmt.Sprintf("%v", float64(data.Current*100)/float64(data.Total))
 	}
 
 	return progress, data.Url, data.Status

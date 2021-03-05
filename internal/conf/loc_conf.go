@@ -3,8 +3,9 @@ package conf
 import "sync"
 
 type LocConf struct {
-	Host string `yaml:"host"`
-	Dir  string `yaml:"dir"`
+	Host     string `yaml:"host"`
+	HostPath string `yaml:"hostPath"`
+	Dir      string `yaml:"dir"`
 }
 
 var (

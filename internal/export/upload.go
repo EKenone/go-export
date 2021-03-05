@@ -9,6 +9,7 @@ const (
 	aliy  = "oss"
 	qiniu = "qiniu"
 	txy   = "txy"
+	loc   = "loc"
 )
 
 func toYun(filename string, filePath string) string {
@@ -51,8 +52,9 @@ func toYun(filename string, filePath string) string {
 		loc := conf.GetLocConf()
 		s.Dir = loc.Dir
 		return s.Uploader(&upload.Loc{
-			Conf: s,
-			Host: loc.Host,
+			Conf:     s,
+			Host:     loc.Host,
+			HostPath: loc.HostPath,
 		})
 	}
 }

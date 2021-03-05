@@ -137,5 +137,6 @@ func (ec *exportConf) taskEnd() {
 	go func() {
 		url := toYun(ec.mk, ec.fullName)
 		Finish(ec.mk, url)
+		os.Remove(ec.fullName)
 	}()
 }

@@ -18,7 +18,8 @@ txy:
 
 loc:
   host: https://upload.test.com
-  dir: file/
+  hostPath: /var/www/upload/
+  dir: export/
 
 redis:
   host: 11.11.11.114
